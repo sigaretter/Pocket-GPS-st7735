@@ -2,4 +2,4 @@
 
 fork of https://github.com/cifertech/Pocket-GPS
 
- esp32+ublox+st7735s
+ ESP32-S3 + ublox-neo-7m + st7735s (SPI)
