@@ -7,6 +7,7 @@
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMono12pt7b.h>
 #include <Fonts/FreeSans9pt7b.h>
+#include <Fonts/FreeSansOblique9pt7b.h>
 #include "gfx.h"
 
 
@@ -19,7 +20,7 @@
 
 // For ST7735-based displays, we will use this call
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
-const uint16_t GRAY = 303131;
+const uint16_t GRAY = 0x3131;
 const uint16_t BLUE = 0x001f;
 const uint16_t RED = 0xf800;
 const uint16_t GREEN = 0x07e0;
@@ -39,21 +40,8 @@ void setup(void) {
   Serial.print(F("Hello! ST77xx TFT Test"));
   neogps.begin(9600, SERIAL_8N1, RXD2, TXD2);
   tft.initR(INITR_BLACKTAB);
-  tft.setRotation(2);
-  tft.fillScreen(ST7735_BLACK);
+  tft.setRotation(0);
 
-  tft.setTextWrap(false);
-  tft.setCursor(10, 60);
-  tft.setTextColor(ST7735_WHITE);
-  tft.setTextSize(1);
-  tft.println("GPSBox by");
-  tft.setCursor(10, 70);
-  tft.setTextSize(2);
-  tft.println("CiferTech");
-  tft.setCursor(45, 120);
-  tft.setTextSize(1);
-  tft.println("v1.0.0");
-  delay(3000);
   tft.fillScreen(ST7735_BLACK);
 }
 
@@ -78,7 +66,7 @@ void loop() {
     tft.setTextSize(1);
     tft.setCursor(5, 60);
     tft.print("Detected Satellites:");
-    tft.setFont(&FreeSans9pt7b);
+    tft.setFont(&FreeSansOblique9pt7b);
     tft.setTextSize(2);
     tft.setCursor(80, 120);
     tft.print(gps.satellites.value());
@@ -109,7 +97,7 @@ void loop() {
     tft.setTextSize(0);
     tft.setCursor(60, 65);
     tft.print("Speed(km/h)");
-    tft.setFont(&FreeSans9pt7b);
+    tft.setFont(&FreeSansOblique9pt7b);
     tft.setTextSize(1);
     tft.setCursor(60, 90);
     tft.print(gps.speed.kmph());
@@ -123,21 +111,23 @@ void loop() {
     tft.setTextSize(0);
     tft.setCursor(60, 115);
     tft.print("Altitude");
-    tft.setFont(&FreeSans9pt7b);
+    tft.setFont(&FreeSansOblique9pt7b);
     tft.setTextSize(1);
     tft.setCursor(60, 140);
     tft.print(gps.altitude.meters(), 0);
 
 
   } else {
-    tft.drawBitmap(6, 5, boot, 100, 100, ST7735_WHITE);
+    // tft.drawBitmap(6, 5, boot, 100, 100, ST7735_WHITE);
     tft.fillRect(60, 135, 10, 10, ST7735_BLACK);
 
     tft.setTextColor(ST7735_WHITE);
     tft.setFont();
     tft.setTextSize(1);
-    tft.setCursor(10, 120);
-    tft.print("Finding satellites");
+    tft.setCursor(30, 110);
+    tft.print("Satellites: ");
+    tft.print(gps.satellites.value());
+
 
     delay(5000);
     tft.fillScreen(ST7735_BLACK);
